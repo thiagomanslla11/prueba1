@@ -11,41 +11,99 @@
       margin: 0;
       display: grid;
       place-items: center;
+      padding: 1.5rem;
       background: linear-gradient(135deg, #b9ecff, #d9f7ff);
       color: #23364a;
       font-family: system-ui, sans-serif;
     }
     main {
-      padding: 3rem 4rem 2rem;
+      width: min(100%, 560px);
+      padding: 2rem;
       border: 1px solid rgba(255, 255, 255, .8);
       border-radius: 1.5rem;
       background: rgba(255, 255, 255, .78);
       box-shadow: 0 1rem 3rem rgba(35, 54, 74, .12);
       text-align: center;
     }
-    h1 { margin: 0; font-size: clamp(2.5rem, 8vw, 5rem); }
-    .dancer {
-      display: inline-block;
-      margin-top: 1rem;
-      font-size: clamp(5rem, 18vw, 8rem);
-      line-height: 1;
+    h1 { margin: 0 0 1.25rem; font-size: clamp(2.5rem, 8vw, 5rem); }
+    .pibble {
+      display: block;
+      width: min(100%, 420px);
+      max-height: 55vh;
+      margin: 0 auto;
+      border-radius: 1rem;
+      object-fit: cover;
+      box-shadow: 0 .75rem 1.5rem rgba(35, 54, 74, .16);
       transform-origin: center bottom;
-      animation: dance .65s ease-in-out infinite alternate;
+      animation: dance .8s ease-in-out infinite alternate;
+    }
+    .music-button {
+      margin-top: 1.25rem;
+      padding: .8rem 1.2rem;
+      border: 0;
+      border-radius: 999px;
+      background: #2589b8;
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .music-button:hover { background: #176d97; }
+    .music-button:focus-visible { outline: 3px solid #163f58; outline-offset: 3px; }
+    .music-note { margin: .65rem 0 0; font-size: .9rem; color: #536b7d; }
+    .youtube-player {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
     }
     @keyframes dance {
-      0% { transform: translateY(0) rotate(-12deg) scaleX(.95); }
-      50% { transform: translateY(-12px) rotate(12deg) scaleX(1.05); }
-      100% { transform: translateY(0) rotate(-8deg) scaleX(.98); }
+      from { transform: translateY(0) rotate(-2deg); }
+      to { transform: translateY(-8px) rotate(2deg); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .dancer { animation: none; }
+      .pibble { animation: none; }
     }
   </style>
 </head>
 <body>
   <main>
     <h1>hola soy ali</h1>
-    <div class="dancer" role="img" aria-label="Pibble bailando">🐶</div>
+    <img
+      class="pibble"
+      src="https://github.com/github-copilot/chat/attachments/91eac211-e39a-46b2-9eb5-ce880b4b5939"
+      alt="Pibble con rayos alrededor, recostado sobre una manta amarilla"
+    >
+    <button class="music-button" type="button" id="musicButton" aria-pressed="false">
+      ▶ Activar música
+    </button>
+    <p class="music-note">Pulsa el botón para escuchar la canción.</p>
+    <iframe
+      class="youtube-player"
+      id="musicPlayer"
+      title="Reproductor de música de YouTube"
+      allow="autoplay; encrypted-media"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
   </main>
+  <script>
+    const button = document.getElementById('musicButton');
+    const player = document.getElementById('musicPlayer');
+    const videoId = 'WTF_B_Scjd4';
+
+    button.addEventListener('click', () => {
+      const isPlaying = button.getAttribute('aria-pressed') === 'true';
+      if (isPlaying) {
+        player.src = '';
+        button.textContent = '▶ Activar música';
+        button.setAttribute('aria-pressed', 'false');
+      } else {
+        player.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`;
+        button.textContent = '⏸ Detener música';
+        button.setAttribute('aria-pressed', 'true');
+      }
+    });
+  </script>
 </body>
 </html>
